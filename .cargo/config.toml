@@ -1,0 +1,9 @@
+[build]
+target = "thumbv7em-none-eabihf"
+
+# For micro:bit v2
+[target.thumbv7em-none-eabihf]
+rustflags = [
+  "-C", "linker=rust-lld",
+  "-C", "link-arg=-Tlink.x",
+]
