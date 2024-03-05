@@ -26,11 +26,11 @@ repository](https://docs.github.com/en/repositories/creating-and-managing-reposi
 3. Build binary -
 
 ```rust
-  - cargo build --features v2 --target thumbv7em-none-eabihf
+  - cargo build
 ```
 
 4. Flash binary on micro:bit v2 -
 
 ```rust
-  - cargo run --features v2 --target thumbv7em-none-eabihf
+  - cargo embed
 ```

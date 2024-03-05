@@ -5,8 +5,8 @@ use cortex_m_rt::entry;
 use rtt_target::{rprintln, rtt_init_print};
 use panic_rtt_target as _;
 use microbit::hal::prelude::*;
-use microbit::hal::gpio::{p0::Parts as P0Parts, Level};
-use microbit::hal::pac::Peripherals;
+use microbit::Board;
+use microbit::hal::gpio::Level;
 use microbit::hal::timer::Timer;
 
 
@@ -14,45 +14,43 @@ use microbit::hal::timer::Timer;
 fn main() -> ! {
     rtt_init_print!();
 
-    // Taking board peripherals
-    let board = Peripherals::take().unwrap();
-    // Assigning Pinouts
-    let gpio = P0Parts::new(board.P0);
-    // Assigning Tmer
+    // Initialize the board
+    let board = Board::take().unwrap();
+
+    // Accessing pins from the board and set level to low
+    // Pinouts here: https://tech.microbit.org/hardware/edgeconnector/#pins-and-signals
+    let mut pin_0 = board.pins.p0_02.into_push_pull_output(Level::Low);
+    let mut pin_1 = board.pins.p0_03.into_push_pull_output(Level::Low);
+    let mut pin_2 = board.pins.p0_04.into_push_pull_output(Level::Low);
+
+    // Assigning Timer
     let mut timer = Timer::new(board.TIMER0);
 
-    // Set up Individual
-    //Pin 9 
-    let mut pin_9= gpio.p0_09.into_push_pull_output(Level::Low);
-    //Pin 3 
-    let mut pin_3 = gpio.p0_31.into_push_pull_output(Level::Low);
-    //Pin 4
-    let mut pin_4 = gpio.p0_28.into_push_pull_output(Level::Low);
 
     loop {
-        rprintln!("Pin 9 Set to High Voltage (3v)!");
+        rprintln!("Pin 0 Set to High Voltage (3v)!");
         // Set Pin Voltage to High (3v)
-        pin_9.set_high().unwrap();
+        pin_0.set_high().unwrap();
         //One second delay
         timer.delay_ms(1000_u32);
         // Set Pin Voltage to Low (0v)
-        pin_9.set_low().unwrap();
+        pin_0.set_low().unwrap();
 
-        rprintln!("Pin 3 Set to High Voltage (3v)!");
+        rprintln!("Pin 1 Set to High Voltage (3v)!");
         // Set Pin Voltage to High (3v)
-        pin_3.set_high().unwrap();
+        pin_1.set_high().unwrap();
         //One second delay
         timer.delay_ms(1000_u32);
         // Set Pin Voltage to Low (0v)
-        pin_3.set_low().unwrap();
+        pin_1.set_low().unwrap();
 
-        rprintln!("Pin 4 Set to High Voltage (3v)!");
+        rprintln!("Pin 2 Set to High Voltage (3v)!");
         // Set Pin Voltage to High (3v)
-        pin_4.set_high().unwrap();
+        pin_2.set_high().unwrap();
         //One second delay
         timer.delay_ms(1000_u32);
         // Set Pin Voltage to Low (0v)
-        pin_4.set_low().unwrap();
+        pin_2.set_low().unwrap();
     }
 
 }
